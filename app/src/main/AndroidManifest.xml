@@ -24,7 +24,6 @@
 
         <service android:name="com.maoye.demo5.PersionService"
             android:enabled="true"
-            android:process=":remote"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.maoye.demo5.PersionService"/>

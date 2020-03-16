@@ -1,7 +1,14 @@
 package com.maoye.demo5;
 
 import android.animation.Animator;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.annotation.IntRange;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,37 +18,29 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private ImageView demo_iv;
-       @Override
+    private TextView tv;
+    private StringBuilder stringBuilder;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         demo_iv = findViewById(R.id.demo_iv);
-        Runnable runnable = new Runnable() {
+        tv = findViewById(R.id.tv);
+
+        stringBuilder = new StringBuilder();
+        ListenerManager.INSTANCE.setCallBack(new ListenerManager.CallBackLister() {
             @Override
-            public void run() {
-
+            public void onCallBack(PersionBean persionBean) {
+                tv.setText(stringBuilder.append(persionBean.getName()).append(persionBean.getAge()).append(","));
             }
-        };
-//           startService(new Intent(this,PersionService.class));
-
-        try {
-            // 编码
-           String aa =  android.util.Base64.encodeToString("sssedrftgsdrfh/,gsdfgsd我，额ss".getBytes("UTF-8"), android.util.Base64.URL_SAFE);
-            Log.e("TAG", "onCreate: "+aa );
-            System.out.println("aa:"+aa); // 输出为: c29tZSBzdHJpbmcv
-            // 解码
-
-
-           String bb = new String(Base64.decode(aa,Base64.URL_SAFE),"UTF-8");
-           String cc = String.valueOf(Base64.decode(aa,Base64.CRLF));
-           ;
-            Log.e("TAG", "onCreate: bb:"+bb );
-            Log.e("TAG", "onCreate: cc:"+cc );
-        }catch (java.io.UnsupportedEncodingException e){
-            e.printStackTrace();
-        }
+        });
     }
 
 
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     @Intype
     public int test(String aa, @IntRange(from = 1, to = 5) int bb) {
         Log.e("TAG", "test: " + aa + "bb:" + bb);
-            return 2;
+        return 2;
     }
 
 }

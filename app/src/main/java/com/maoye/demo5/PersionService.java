@@ -42,7 +42,7 @@ public class PersionService extends Service {
             if (packages != null && packages.length > 0) {
                 pkgName = packages[0];
             }
-            if (TextUtils.isEmpty(pkgName) || !pkgName.startsWith("com.rs")) {
+            if (TextUtils.isEmpty(pkgName) || !pkgName.startsWith("com") ) {
                 Log.e("TAG", "invalid pkgName : " + pkgName);
                 return false;
             }
@@ -63,6 +63,7 @@ public class PersionService extends Service {
                 pearsionList.add(persion);
                 dispatchResult(true, "add persion successfully");
             }
+            ListenerManager.INSTANCE.callBackLister.onCallBack(persion);
         }
 
         @Override
